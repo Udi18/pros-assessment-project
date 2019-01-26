@@ -1,27 +1,101 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import InputNamesField from './components/InputNamesField';
+import LanguageSelector from './components/LanguageSelector';
+import TextToTranslateField from './components/TextToTranslateField';
+import NameTags from './components/NameTags';
 
 class App extends Component {
+  state = {
+    languageOptions: {},
+    names: '',
+    textToTranslate: '',
+    languageChoice: '',
+    translatedText: '',
+    route: 'home',
+  }
+
+  componentDidMount() {
+    const apiKey = 'key=trnsl.1.1.20190125T225412Z.10a346ef55de66c0.c6a59bb3601e9dbe458c012ab1cd29461c9f7c2d'
+    const language = '&ui=en'
+    fetch('https://translate.yandex.net/api/v1.5/tr.json/getLangs?' + apiKey + language)
+      .then(response => response.json())
+      .then(parsedJSON => this.setState({ languageOptions: parsedJSON.langs }))
+      .catch(error => console.log('Something went wrong!', error))
+  }
+
+  keyFinder = (obj, value) => {
+    return Object.keys(obj).find(key => obj[key] === value);
+  }
+
+  onSubmitHandler = (keyFinder, langObj, langChoice) => (event) => {
+    const apiKey = 'key=trnsl.1.1.20190125T225412Z.10a346ef55de66c0.c6a59bb3601e9dbe458c012ab1cd29461c9f7c2d';
+    const text = encodeURI(`&text=${this.state.textToTranslate}`);
+    const lang = `&lang=en-${keyFinder(langObj, langChoice)}`
+    event.preventDefault();
+      fetch('https://translate.yandex.net/api/v1.5/tr.json/translate?' + apiKey + text + lang)
+        .then(response => response.json())
+        .then(parsedJSON => this.setState({ translatedText: parsedJSON.text[0] }))
+        .catch(error => console.log('Something went wrong!', error))
+    this.setState({ route: 'tags'})
+  }
+
+  onNamesChangeHandler = (event) => {
+    let names = event.target.value;
+    this.setState({ names: names })
+  }
+
+  onLanguageSelectHandler = (event) => {
+    let language = event.target.value;
+    this.setState({ languageChoice: language })
+  }
+
+  onGreetingInputHandler = (event) => {
+    let greeting = event.target.value
+    this.setState({ textToTranslate: greeting })
+  }
+
+  routeHandler = () => {
+    const { names, languageOptions, textToTranslate, languageChoice, translatedText, route } = this.state;
+    const pageStyle = { display: 'flex', justifyContent: 'center' }
+    if (route === 'home') {
+      return (
+        <form onSubmit={this.onSubmitHandler(this.keyFinder, languageOptions, languageChoice)}>
+          <div style={pageStyle}>
+            <InputNamesField
+              onNamesChangeHandler={this.onNamesChangeHandler}
+              names={names}
+            />
+            <LanguageSelector
+              languageOptions={languageOptions}
+              onLanguageSelectHandler={this.onLanguageSelectHandler}
+            />
+            <TextToTranslateField
+              textToTranslate={textToTranslate}
+              onGreetingInputHandler={this.onGreetingInputHandler}
+            />
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+            <button>Submit</button>
+          </div>
+        </form>
+      )
+    }
+    if (route === 'tags') {
+      return (
+      <div>
+        <NameTags names={names} translatedText={translatedText} />
+      </div>
+      )
+    }
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        {this.routeHandler()}
       </div>
-    );
+    )
   }
 }
 
