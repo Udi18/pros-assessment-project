@@ -12,8 +12,7 @@ const NameTags = (props) => {
                   justifyContent: 'center',
                   flexDirection: 'column',
                   margin: '10px',
-                  width: '300px',
-                  flexWrap: 'wrap'}}
+                  width: '300px',}}
             key={name}>
         <h3>{translatedText}</h3>
         <h2>{name}</h2>
@@ -22,7 +21,7 @@ const NameTags = (props) => {
   })
 
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
+    <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
       {tagCreator}
     </div>
   )
