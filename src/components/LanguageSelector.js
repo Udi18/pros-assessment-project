@@ -2,6 +2,7 @@ import React from 'react';
 
 const LanguageSelector = (props) => {
   const { languageOptions, onLanguageSelectHandler } = props;
+  
   const optionsCreator = langs => langs.map(lang => <option key={lang}>{lang}</option>)
 
   return (

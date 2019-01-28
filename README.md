@@ -5,6 +5,7 @@ Write your own greeting to a list of names and choose from 93 languages to trans
 
 In the project directory, you can run:
 
+### `npm install`
 ### `npm start`
 
 Runs the app in the development mode.<br>

@@ -16,6 +16,7 @@ class App extends Component {
     route: 'home',
   }
 
+  //Pull list of supported languages from yandex api.
   componentDidMount() {
     const apiKey = 'key=trnsl.1.1.20190125T225412Z.10a346ef55de66c0.c6a59bb3601e9dbe458c012ab1cd29461c9f7c2d'
     const language = '&ui=en'
@@ -25,9 +26,11 @@ class App extends Component {
       .catch(error => console.log('Something went wrong!', error))
   }
 
+  //Finds key of a value in an object
   keyFinder = (obj, value) => {
     return Object.keys(obj).find(key => obj[key] === value);
   }
+
   onButtonClick = () => {
     if (this.state.route === 'home') {
       return this.setState({ route: 'tags' });
@@ -35,6 +38,7 @@ class App extends Component {
     return this.setState({ route: 'home' });
   }
 
+  //Encodes text, sends text and receives translated text.
   onSubmitHandler = (keyFinder, langObj, langChoice) => (event) => {
     const apiKey = 'key=trnsl.1.1.20190125T225412Z.10a346ef55de66c0.c6a59bb3601e9dbe458c012ab1cd29461c9f7c2d';
     const text = encodeURI(`&text=${this.state.textToTranslate}`);
