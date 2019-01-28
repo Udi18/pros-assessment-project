@@ -7,7 +7,7 @@ const LanguageSelector = (props) => {
   return (
     <div style={{ padding: '30px' }}>
       <h3 style={{ paddingRight: '20px' }}>Language options:</h3>
-      <select onChange={onLanguageSelectHandler}>
+      <select onChange={onLanguageSelectHandler} required>
         <option>Please select language</option>
         {optionsCreator(Object.values(languageOptions))}
       </select>

@@ -4,6 +4,7 @@ import InputNamesField from './components/InputNamesField';
 import LanguageSelector from './components/LanguageSelector';
 import TextToTranslateField from './components/TextToTranslateField';
 import NameTags from './components/NameTags';
+import Button from './components/Button';
 
 class App extends Component {
   state = {
@@ -27,23 +28,30 @@ class App extends Component {
   keyFinder = (obj, value) => {
     return Object.keys(obj).find(key => obj[key] === value);
   }
+  onButtonClick = () => {
+    if (this.state.route === 'home') {
+      return this.setState({ route: 'tags' });
+    }
+    return this.setState({ route: 'home' });
+  }
 
   onSubmitHandler = (keyFinder, langObj, langChoice) => (event) => {
     const apiKey = 'key=trnsl.1.1.20190125T225412Z.10a346ef55de66c0.c6a59bb3601e9dbe458c012ab1cd29461c9f7c2d';
     const text = encodeURI(`&text=${this.state.textToTranslate}`);
     const lang = `&lang=en-${keyFinder(langObj, langChoice)}`
     event.preventDefault();
-      fetch('https://translate.yandex.net/api/v1.5/tr.json/translate?' + apiKey + text + lang)
-        .then(response => response.json())
-        .then(parsedJSON => this.setState({ translatedText: parsedJSON.text[0] }))
-        .catch(error => console.log('Something went wrong!', error))
-    this.setState({ route: 'tags'})
+    fetch('https://translate.yandex.net/api/v1.5/tr.json/translate?' + apiKey + text + lang)
+      .then(response => response.json())
+      .then(parsedJSON => this.setState({ translatedText: parsedJSON.text[0] }))
+      .catch(error => console.log('Something went wrong!', error))
+    this.onButtonClick();
   }
 
   onNamesChangeHandler = (event) => {
     let names = event.target.value;
     this.setState({ names: names })
   }
+
 
   onLanguageSelectHandler = (event) => {
     let language = event.target.value;
@@ -75,9 +83,7 @@ class App extends Component {
               onGreetingInputHandler={this.onGreetingInputHandler}
             />
           </div>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-            <button>Submit</button>
-          </div>
+          <Button /> 
         </form>
       )
     }
@@ -85,6 +91,7 @@ class App extends Component {
       return (
       <div>
         <NameTags names={names} translatedText={translatedText} />
+        <Button onButtonClick={this.onButtonClick} route={route} />
       </div>
       )
     }

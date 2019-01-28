@@ -1,6 +1,8 @@
 * created using create-react-app
 * Powered by Yandex.Translate [http://translate.yandex.com/](http://translate.yandex.com)
 
+Write your own greeting to a list of names and choose from 93 languages to translate in to.
+
 In the project directory, you can run:
 
 ### `npm start`
