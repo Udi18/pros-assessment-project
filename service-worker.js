@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Udi18/pros-assessment-project/precache-manifest.ef0c03722d4ddb00f9dcf23407ec12f0.js"
+  "/pros-assessment-project/precache-manifest.7bd1f24a0d62bd6b2ed776d839b8e572.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/Udi18/pros-assessment-project/index.html", {
+workbox.routing.registerNavigationRoute("/pros-assessment-project/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
